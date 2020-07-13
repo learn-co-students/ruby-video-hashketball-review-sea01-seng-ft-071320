@@ -1,5 +1,5 @@
 # Write your code below game_hash
-
+require 'pry'
 def game_hash
   {
     home: {
@@ -128,3 +128,88 @@ def game_hash
 end
 
 # Write code here
+
+def teams(team_name)
+  case team_name
+  when game_hash[:home][:team_name]
+    game_hash[:home]
+  when game_hash[:away][:team_name]
+    game_hash[:away]
+  end
+end
+
+def num_points_scored (each_player)
+  game_hash.each do |team, team_data|
+    team_data[:players].each do |player|
+      if player[:player_name] == each_player
+        return player[:points]
+      end
+    end
+  end
+end
+
+def shoe_size (each_player)
+   game_hash.each do |team, team_data|
+    team_data[:players].each do |player|
+      if player[:player_name] == each_player
+        return player[:shoe]
+      end
+    end
+  end
+end
+
+def team_colors (team_name)
+  teams(team_name)[:colors]
+end
+
+def team_names
+ [game_hash[:home][:team_name], game_hash[:away][:team_name]]
+end
+
+def player_numbers (team_name)
+ jersey_numbers = []
+ game_hash.each do |team, team_data|
+   if team_data[:team_name] == team_name
+     team_data[:players].each {|player| jersey_numbers.push(player[:number])}
+   end
+ end
+  jersey_numbers
+end
+
+
+def player_stats(name)
+  players_stats = {}
+  game_hash.each do |key, value|
+  value[:players].each do |player_name|
+    if name == player_name[:player_name]
+     players_stats = player_name
+      end
+    end
+  end
+players_stats
+end
+
+
+def big_shoe_rebounds
+  shoe_size = 0 
+  rebounds = 0 
+  game_hash.each do |team, team_data|
+    team_data[:players].each  do |player| 
+   if player[:shoe] > shoe_size
+     shoe_size = player[:shoe]
+     rebounds= player[:rebounds]
+    end
+   end
+  end
+  return rebounds
+end
+
+# * Build a method, `big_shoe_rebounds`, that will return the number of rebounds
+#   associated with the player that has the largest shoe size. Break this one down
+#   into steps:
+
+#   # * First, find the player with the largest shoe size
+#   # * Then, return that player's number of rebounds
+#   # * Remember to think about return values here.
+
+
